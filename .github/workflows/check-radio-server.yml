@@ -1,0 +1,33 @@
+name: Vérification du Serveur (radio-server)
+
+on:
+  push:
+    branches:
+      - main # Changez par master si votre branche principale s'appelle master
+    paths:
+      - 'radio-server/**'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code du dépôt
+        uses: actions/checkout@v4
+
+      - name: Configurer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'radio-server/package-lock.json'
+
+      - name: Installer les dépendances
+        run: |
+          cd radio-server
+          npm ci
+
+      - name: Vérifier la compilation NestJS (Build)
+        run: |
+          cd radio-server
+          npm run build

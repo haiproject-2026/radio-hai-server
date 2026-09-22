@@ -1,0 +1,8 @@
+{
+  "eslint.enable": false,
+  "prettier.enable": false,
+  "files.exclude": {
+    "src": true,
+    "test": true
+  }
+}
