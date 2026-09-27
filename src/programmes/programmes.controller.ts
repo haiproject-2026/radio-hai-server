@@ -15,6 +15,7 @@ function convertirEnString(valeur: unknown): string {
   return typeof valeur === 'string' ? valeur : '';
 }
 
+// 1. On remet la route principale d'origine pour que la récupération (GET) refonctionne
 @Controller('emissions')
 export class ProgrammesController {
   constructor(private readonly programmesService: ProgrammesService) {}
@@ -55,7 +56,6 @@ export class ProgrammesController {
           hFin = finBrut ? finBrut.trim() : '';
         }
 
-        // 🚨 ATTENTION : Assurez-vous d'utiliser l'ID réel issu du Service
         let idFinal = String(prog.id);
 
         return {
@@ -124,7 +124,8 @@ export class ProgrammesController {
     };
   }
 
-  @Post()
+  // 2. IMPORTANT : On écoute sur '../grille-programmes' pour intercepter la route absolue du frontend !
+  @Post('../grille-programmes')
   async create(@Body() body: Record<string, unknown>): Promise<unknown> {
     try {
       const hDebut = convertirEnString(body.heureDebut);
@@ -166,11 +167,9 @@ export class ProgrammesController {
     }
   }
 
-  // 🛠️ NETTOYAGE ET APPEL TYPÉ DIRECT DU SERVICE POUR CRASHER L'ERREUR 404
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<unknown> {
     try {
-      // Évite le double casting dynamique et appelle directement la méthode valide du service
       return await this.programmesService.remove(id);
     } catch (error: unknown) {
       console.error('Erreur lors de la suppression backend :', error);
