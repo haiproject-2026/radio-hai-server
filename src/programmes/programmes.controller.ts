@@ -15,63 +15,68 @@ function convertirEnString(valeur: unknown): string {
   return typeof valeur === 'string' ? valeur : '';
 }
 
-// 1. On remet la route principale d'origine pour que la récupération (GET) refonctionne
 @Controller('emissions')
 export class ProgrammesController {
   constructor(private readonly programmesService: ProgrammesService) {}
 
   @Get()
   async findAllProgrammes(): Promise<unknown> {
-    const donneesBrutes = await this.programmesService.findAll();
+    try {
+      const donneesBrutes = await this.programmesService.findAll();
 
-    if (Array.isArray(donneesBrutes)) {
-      return donneesBrutes.map((prog: Record<string, unknown>) => {
-        const listeJours = Array.isArray(prog.jours) ? prog.jours : [];
-        const premierJour =
-          listeJours.length > 0 ? convertirEnString(listeJours[0]) : '';
+      if (Array.isArray(donneesBrutes)) {
+        return donneesBrutes.map((prog: Record<string, unknown>) => {
+          const listeJours = Array.isArray(prog.jours) ? prog.jours : [];
+          const premierJour =
+            listeJours.length > 0 ? convertirEnString(listeJours[0]) : '';
 
-        const descString = convertirEnString(prog.description);
-        const titreString = convertirEnString(prog.titre);
-        const horaireString = convertirEnString(prog.horaire);
-        const animateurString = convertirEnString(prog.animateur);
+          const descString = convertirEnString(prog.description);
+          const titreString = convertirEnString(prog.titre);
+          const horaireString = convertirEnString(prog.horaire);
+          const animateurString = convertirEnString(prog.animateur);
 
-        const estAncienneDonnee = titreString === 'Émission';
+          const estAncienneDonnee = titreString === 'Émission';
 
-        const nomEmissionFinal = estAncienneDonnee
-          ? descString || 'Émission sans titre'
-          : titreString || 'Émission sans titre';
+          const nomEmissionFinal = estAncienneDonnee
+            ? descString || 'Émission sans titre'
+            : titreString || 'Émission sans titre';
 
-        const descriptionFinale = estAncienneDonnee
-          ? 'Aucune description fournie.'
-          : descString || 'Aucune description fournie.';
+          const descriptionFinale = estAncienneDonnee
+            ? 'Aucune description fournie.'
+            : descString || 'Aucune description fournie.';
 
-        let hDebut = '';
-        let hFin = '';
+          let hDebut = '';
+          let hFin = '';
 
-        if (horaireString.includes('-')) {
-          const parties: string[] = horaireString.split('-');
-          const debutBrut = parties[0];
-          const finBrut = parties[1];
-          hDebut = debutBrut ? debutBrut.trim() : '';
-          hFin = finBrut ? finBrut.trim() : '';
-        }
+          // 🛠️ FIX COMPLET : Extraction correcte des index 0 et 1 du tableau
+          if (horaireString && horaireString.includes('-')) {
+            const parties: string[] = horaireString.split('-');
+            const debutBrut = parties[0];
+            const finBrut = parties[1];
+            hDebut = debutBrut ? debutBrut.trim() : '';
+            hFin = finBrut ? finBrut.trim() : '';
+          }
 
-        let idFinal = String(prog.id);
+          let idFinal = String(prog.id);
 
-        return {
-          id: idFinal,
-          nomEmission: nomEmissionFinal,
-          description: descriptionFinale,
-          horaire: horaireString || 'Horaire non défini',
-          heureDebut: hDebut,
-          heureFin: hFin,
-          jour: premierJour,
-          jours: listeJours,
-          animateur: animateurString,
-        };
-      });
+          return {
+            id: idFinal,
+            nomEmission: nomEmissionFinal,
+            description: descriptionFinale,
+            horaire: horaireString || 'Horaire non défini',
+            heureDebut: hDebut,
+            heureFin: hFin,
+            jour: premierJour,
+            jours: listeJours,
+            animateur: animateurString,
+          };
+        });
+      }
+      return [];
+    } catch (err) {
+      console.error('Erreur dans findAllProgrammes Backend :', err);
+      return [];
     }
-    return [];
   }
 
   @Get(':id')
@@ -103,7 +108,8 @@ export class ProgrammesController {
     let hDebut = '';
     let hFin = '';
 
-    if (horaireString.includes('-')) {
+    // 🛠️ FIX COMPLET : Extraction identique ici
+    if (horaireString && horaireString.includes('-')) {
       const parties: string[] = horaireString.split('-');
       const debutBrut = parties[0];
       const finBrut = parties[1];
@@ -124,8 +130,7 @@ export class ProgrammesController {
     };
   }
 
-  // 2. IMPORTANT : On écoute sur '../grille-programmes' pour intercepter la route absolue du frontend !
-  @Post('../grille-programmes')
+  @Post()
   async create(@Body() body: Record<string, unknown>): Promise<unknown> {
     try {
       const hDebut = convertirEnString(body.heureDebut);
