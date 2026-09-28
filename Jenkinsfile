@@ -17,32 +17,32 @@ pipeline {
         CPU_SHARES = '512'
 
         // Application (production)
-        PORT='3174'
-        NODE_ENV='production'
+        PORT = '3174'
+        NODE_ENV = 'production'
 
         // PostgreSQL
-        DATABASE_HOST=credentials('DB_HOST_ID')
-        DATABASE_PORT=credentials('DB_PORT_ID')
-        DATABASE_USER=credentials('DB_USER_ID')
-        DATABASE_PASSWORD=credentials('DB_PASSWORD_ID')
-        DATABASE_NAME='hai_radio'
+        DATABASE_HOST = credentials('DB_HOST_ID')
+        DATABASE_PORT = credentials('DB_PORT_ID')
+        DATABASE_USER = credentials('DB_USER_ID')
+        DATABASE_PASSWORD = credentials('DB_PASSWORD_ID')
+        DATABASE_NAME = 'hai_radio'
 
         // JWT
-        JWT_SECRET=credentials('JWT_SECRET_ID')
-        JWT_REFRESH_SECRET=credentials('JWT_REFRESH_SECRET_ID')
-        JWT_EXPIRES_IN='7d'
+        JWT_SECRET = credentials('JWT_SECRET_ID')
+        JWT_REFRESH_SECRET = credentials('JWT_REFRESH_SECRET_ID')
+        JWT_EXPIRES_IN = '7d'
 
         // CORS
-        CLIENT_URL='https://hai-radio.itdcmada.com'
-        ADMIN_URL='https://hai-radio-admin.itdcmada.com'
+        CLIENT_URL = 'https://hai-radio.itdcmada.com'
+        ADMIN_URL = 'https://hai-radio-admin.itdcmada.com'
 
         // Radio
-        RADIO_STREAM_URL='https://your-radio-stream.com/live'
+        RADIO_STREAM_URL = 'https://your-radio-stream.com/live'
 
-        MINIO_ENDPOINT=credentials('MINIO_ENDPOINT_ID')
-        MINIO_PORT=credentials('MINIO_PORT_ID')
-        MINIO_ACCESS_KEY=credentials('MINIO_ACCESS_KEY_ID')
-        MINIO_SECRET_KEY=credentials('MINIO_SECRET_KEY_ID')
+        MINIO_ENDPOINT = credentials('MINIO_ENDPOINT_ID')
+        MINIO_PORT = credentials('MINIO_PORT_ID')
+        MINIO_ACCESS_KEY = credentials('MINIO_ACCESS_KEY_ID')
+        MINIO_SECRET_KEY = credentials('MINIO_SECRET_KEY_ID')
 
         // Logging options
         LOG_DRIVER = 'json-file'
@@ -135,7 +135,6 @@ pipeline {
                     sleep 3
                     echo "Conteneur démarré (${CONTAINER_NAME}) — image ${IMAGE_NAME}:${IMAGE_TAG}"
                     '''
-                    } // end withCredentials
                 }
             }
         }
