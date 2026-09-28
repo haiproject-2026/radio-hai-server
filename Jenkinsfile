@@ -25,12 +25,12 @@ pipeline {
         DATABASE_PORT=credentials('DB_PORT_ID')
         DATABASE_USER=credentials('DB_USER_ID')
         DATABASE_PASSWORD=credentials('DB_PASSWORD_ID')
-        DATABASE_NAME=hai_radio
+        DATABASE_NAME='hai_radio'
 
         // JWT
         JWT_SECRET=credentials('JWT_SECRET_ID')
         JWT_REFRESH_SECRET=credentials('JWT_REFRESH_SECRET_ID')
-        JWT_EXPIRES_IN=7d
+        JWT_EXPIRES_IN='7d'
 
         // CORS
         CLIENT_URL='https://hai-radio.itdcmada.com'
