@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         // Image / container
-        CONTAINER_NAME = 'essg-api'
-        IMAGE_NAME = 'essg-api'
+        CONTAINER_NAME = 'hai-radio-api'
+        IMAGE_NAME = 'hai-radio-api'
         IMAGE_TAG = "${BUILD_NUMBER}"
 
         // Ports
-        HOST_PORT = '3171'      // port exposé sur l'hôte
-        CONTAINER_PORT = '3171'      // port utilisé par l'app dans le conteneur
+        HOST_PORT = '3174'      // port exposé sur l'hôte
+        CONTAINER_PORT = '3174'      // port utilisé par l'app dans le conteneur
 
         // Ressources
         MEMORY_LIMIT = '512m'
@@ -17,8 +17,8 @@ pipeline {
         CPU_SHARES = '512'
 
         // Application (production)
-        PORT=3174
-        NODE_ENV=production
+        PORT='3174'
+        NODE_ENV='production'
 
         // PostgreSQL
         DATABASE_HOST=credentials('DB_HOST_ID')
