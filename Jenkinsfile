@@ -122,7 +122,6 @@ pipeline {
                         -e "MINIO_PORT=${MINIO_PORT}" \
                         -e "MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}" \
                         -e "MINIO_SECRET_KEY=${MINIO_SECRET_KEY}" \
-                        -e "HEALTH_MEMORY_LIMIT_MB=${HEALTH_MEMORY_LIMIT_MB}" \
                         -e "PERF_LOG=${PERF_LOG}" \
                         -e "PERF_SQL=${PERF_SQL}" \
                         -e "PERF_SLOW_MS=${PERF_SLOW_MS}" \
