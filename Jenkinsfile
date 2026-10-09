@@ -112,11 +112,11 @@ pipeline {
                         --log-opt max-size=${LOG_MAX_SIZE} \
                         --log-opt max-file=${LOG_MAX_FILE} \
                         -e "NODE_ENV=${NODE_ENV}" \
-                        -e "DATABASE_HOST=${DATABASE_HOST}" \
-                        -e "DATABASE_PORT=${DATABASE_PORT}" \
-                        -e "DATABASE_USER=${DATABASE_USER}" \
-                        -e "DATABASE_PASSWORD=${DATABASE_PASSWORD}" \
-                        -e "DATABASE_NAME=${DATABASE_NAME}" \
+                        -e "DB_HOST=${DATABASE_HOST}" \
+                        -e "DB_PORT=${DATABASE_PORT}" \
+                        -e "DB_USERNAME=${DATABASE_USER}" \
+                        -e "DB_PASSWORD=${DATABASE_PASSWORD}" \
+                        -e "DB_DATABASE=${DATABASE_NAME}" \
                         -e "MINIO_ENDPOINT=${MINIO_ENDPOINT}" \
                         -e "MINIO_HOST=${MINIO_HOST}" \
                         -e "MINIO_PORT=${MINIO_PORT}" \
