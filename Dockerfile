@@ -26,6 +26,9 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
+# Créer le répertoire uploads et définir les permissions pour l'utilisateur node
+RUN mkdir -p /app/uploads && chown -R node:node /app
+
 # Utilisateur non-root (fourni par l'image node)
 USER node
 
